@@ -30,14 +30,50 @@ function getWeather(city) {
                     
                     var currentWindSpeed = oneCallData.current.wind_speed
                     console.log(currentWindSpeed)
-                    document.querySelector('#today-wind').textContent += ": " + currentWindSpeed
+                    document.querySelector('#today-wind').textContent += ": " + currentWindSpeed + " MPH"
 
                     var currentUV = oneCallData.current.uvi
                     console.log(currentUV)
                     document.querySelector('#today-uv').textContent += ": " + currentUV
+
+                    var futureCloud = document.querySelectorAll(".future-cloud")
+                    for(var i=0; i<6; i++) {
+                        var futureCloudArray = oneCallData.daily[i].weather[0].main
+                        console.log(futureCloudArray)
+                        futureCloud[i].textContent += ": " + futureCloudArray
+                    } 
+
+                    var futureTemp = document.querySelectorAll(".future-temp")
+                    for(var i=0; i<6; i++) {
+                        var futureTempArray = oneCallData.daily[i].temp.day
+                        console.log(futureTempArray)
+                        futureTemp[i].textContent += ": " + futureTempArray + "℉"
+                    }
+
+                    var futureHumidity = document.querySelectorAll(".future-humidity")
+                    for(var i=0; i<6; i++) {
+                        var futureHumidityArray = oneCallData.daily[i].humidity
+                        console.log(futureHumidityArray)
+                        futureHumidity[i].textContent += ": " + futureHumidityArray
+                    }
+
+                    var futureWindSpeed = document.querySelectorAll(".future-wind")
+                    for(var i=0; i<6; i++) {
+                        var futureWindSpeedArray = oneCallData.daily[i].wind_speed
+                        console.log(futureWindSpeedArray)
+                        futureWindSpeed[i].textContent += ": " + futureWindSpeedArray + " MPH"
+                    }
+
+                    var futureUV = document.querySelectorAll(".future-uv")
+                    for(var i=0; i<6; i++) {
+                        var futureUVArray = oneCallData.daily[i].uvi
+                        console.log(futureUVArray)
+                        futureUV[i].textContent += ": " + futureUVArray
+                    }
                 })
         })
 }
+
 
 document.querySelector('#search-button').addEventListener('click', function () {
     var inputedCity = document.querySelector('#search-value').value
