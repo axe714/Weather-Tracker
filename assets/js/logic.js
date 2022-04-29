@@ -14,7 +14,7 @@ function getWeather(city) {
             fetch(oneCallBaseEndPoint + `?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`)
                 .then(oneCallRes => oneCallRes.json())
                 .then(oneCallData => {
-                    
+
                     var currentCloud = oneCallData.current.weather[0].main
                     console.log('currentCloud', currentCloud)
                     document.querySelector('#today-cloud-condition').textContent += ": " + currentCloud
@@ -32,6 +32,9 @@ function getWeather(city) {
                     console.log(currentWindSpeed)
                     document.querySelector('#today-wind').textContent += ": " + currentWindSpeed
 
+                    var currentUV = oneCallData.current.uvi
+                    console.log(currentUV)
+                    document.querySelector('#today-uv').textContent += ": " + currentUV
                 })
         })
 }
