@@ -85,9 +85,24 @@ function getWeather(city) {
         })
 }
 
-
 document.querySelector('#search-button').addEventListener('click', function () {
     var inputedCity = document.querySelector('#search-value').value
     console.log('city', inputedCity)
     getWeather(inputedCity)
+
+
+
+    //NEEDS ADDITIONAL LOGIC.. WORK IN PROGRESS//
+
+    
+    //save to inputed city to local storage
+    localStorage.setItem('city history', inputedCity)
+    
+    var savedCity = localStorage.getItem('city history')
+    console.log('saved city', savedCity)
+
+    //display saved city
+    document.querySelector('#saved-city').textContent = savedCity
+
+
 })
