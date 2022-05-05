@@ -2,6 +2,16 @@ var oneCallBaseEndPoint = 'https://api.openweathermap.org/data/2.5/onecall';
 var weatherBaseEndPoint = 'https://api.openweathermap.org/data/2.5/weather';
 var API_KEY = '180c9f853ac8fcc595fe4080e0abf997';
 var units = 'imperial';
+var forecastDates = moment().add(day, 'days').format("MMM D");
+var day;
+
+
+//adds date to corresponding cards
+var weatherDate = document.querySelectorAll("h2");
+for (var i = 0; i < weatherDate.length; i++) {
+    weatherDate[i].textContent = forecastDates;
+    forecastDates = moment().add(i + 1, 'days').format("MMM D");
+}
 
 function getWeather(city) {
     fetch(weatherBaseEndPoint + `?q=${encodeURI(city)}&appid=${API_KEY}`)
@@ -70,7 +80,7 @@ function getWeather(city) {
                     for (var i = 0; i < 6; i++) {
                         futureWindSpeed[i].textContent = "";
                         var futureWindSpeedArray = oneCallData.daily[i].wind_speed
-                        // git
+                        // console.log(futureWindSpeedArray)
                         futureWindSpeed[i].textContent = "Wind Speed: " + futureWindSpeedArray + " MPH"
                     }
 
@@ -90,14 +100,14 @@ document.querySelector('#search-button').addEventListener('click', function () {
     console.log('city', inputedCity)
     getWeather(inputedCity)
 
-
+    
 
     //NEEDS ADDITIONAL LOGIC.. WORK IN PROGRESS//
 
-    
+
     //save to inputed city to local storage
     localStorage.setItem('city history', inputedCity)
-    
+
     var savedCity = localStorage.getItem('city history')
     console.log('saved city', savedCity)
 
