@@ -1,5 +1,6 @@
 var oneCallBaseEndPoint = 'https://api.openweathermap.org/data/2.5/onecall';
 var weatherBaseEndPoint = 'https://api.openweathermap.org/data/2.5/weather';
+var weatherIconLink = 'https://openweathermap.org/img/wn/'
 var API_KEY = '180c9f853ac8fcc595fe4080e0abf997';
 var units = 'imperial';
 var forecastDates = moment().add(day, 'days').format("MMM D");
@@ -17,7 +18,6 @@ function getWeather(city) {
     fetch(weatherBaseEndPoint + `?q=${encodeURI(city)}&appid=${API_KEY}`)
         .then(weatherRes => weatherRes.json())
         .then(weatherData => {
-
             var lat = weatherData.coord.lat;
             var lon = weatherData.coord.lon;
             console.log('weather data', weatherData)
@@ -26,6 +26,16 @@ function getWeather(city) {
                 .then(oneCallRes => oneCallRes.json())
                 .then(oneCallData => {
 
+                    var currentWeatherEl = document.querySelector("#current-icon")
+                    var currentWeatherIconVal = oneCallData.current.weather[0].icon
+                    currentWeatherEl.setAttribute("src", weatherIconLink + currentWeatherIconVal + ".png")
+
+                    for (var i = 0; i < 6; i++) {
+                        var futureWeatherIconEl = document.querySelectorAll(".future-icon");
+                        var futureIconVal = oneCallData.daily[i].weather[0].icon
+                        futureWeatherIconEl[i].setAttribute("src", weatherIconLink + futureIconVal + ".png")
+                    }
+                    
                     document.querySelector('#today-cloud-condition').textContent = "";
                     var currentCloud = oneCallData.current.weather[0].main
                     // console.log('currentCloud', currentCloud)
@@ -95,6 +105,7 @@ function getWeather(city) {
         })
 }
 
+
 document.querySelector('#search-button').addEventListener('click', function () {
     var inputedCity = document.querySelector('#search-value').value
     console.log('city', inputedCity)
@@ -103,16 +114,15 @@ document.querySelector('#search-button').addEventListener('click', function () {
     
 
     //NEEDS ADDITIONAL LOGIC.. WORK IN PROGRESS//
-
+    
 
     //save to inputed city to local storage
-    localStorage.setItem('city history', inputedCity)
+    localStorage.setItem('city-history', inputedCity)
 
-    var savedCity = localStorage.getItem('city history')
+    var savedCity = localStorage.getItem('city-history')
     console.log('saved city', savedCity)
 
     //display saved city
-    document.querySelector('#saved-city').textContent = savedCity
-
+    // document.querySelector('#saved-city').textContent = savedCity
 
 })
