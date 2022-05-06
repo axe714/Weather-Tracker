@@ -35,7 +35,7 @@ function getWeather(city) {
                         var futureIconVal = oneCallData.daily[i].weather[0].icon
                         futureWeatherIconEl[i].setAttribute("src", weatherIconLink + futureIconVal + ".png")
                     }
-                    
+
                     document.querySelector('#today-cloud-condition').textContent = "";
                     var currentCloud = oneCallData.current.weather[0].main
                     // console.log('currentCloud', currentCloud)
@@ -111,10 +111,10 @@ document.querySelector('#search-button').addEventListener('click', function () {
     console.log('city', inputedCity)
     getWeather(inputedCity)
 
-    
+
 
     //NEEDS ADDITIONAL LOGIC.. WORK IN PROGRESS//
-    
+
 
     //save to inputed city to local storage
     localStorage.setItem('city-history', inputedCity)
