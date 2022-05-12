@@ -111,18 +111,32 @@ document.querySelector('#search-button').addEventListener('click', function () {
     console.log('city', inputedCity)
     getWeather(inputedCity)
 
+//     var weatherDate = document.querySelectorAll("h2");
+//     for (var i = 0; i < weatherDate.length; i++) {
+//     weatherDate[i].textContent = forecastDates + " in " + inputedCity;
+//     forecastDates = moment().add(i + 1, 'days').format("MMM D");
+// }
 
+    //create buttons for saved city
+    var savedCityButton = document.createElement("button");
+    savedCityButton.textContent = inputedCity;
+    savedCityButton.classList.add("saved-city-button");
+    document.querySelector('#saved-city-row').appendChild(savedCityButton);
+    savedCityButton.addEventListener('click', function () {
+        getWeather(inputedCity)
+    }
+    )
 
-    //NEEDS ADDITIONAL LOGIC.. WORK IN PROGRESS//
+    //add saved cities to local storage input to local storage
+    var savedCities = JSON.parse(localStorage.getItem('savedCities'));
+    if (savedCities === null) {
+        savedCities = [];
+    }
+    savedCities.push(inputedCity);
+    localStorage.setItem('savedCities', JSON.stringify(savedCities));
+    console.log('savedCities', savedCities)
+    document.querySelector('#search-value').value = "";
 
-
-    //save to inputed city to local storage
-    localStorage.setItem('city-history', inputedCity)
-
-    var savedCity = localStorage.getItem('city-history')
-    console.log('saved city', savedCity)
-
-    //display saved city
-    // document.querySelector('#saved-city').textContent = savedCity
 
 })
+
