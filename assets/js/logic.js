@@ -5,14 +5,15 @@ var API_KEY = '180c9f853ac8fcc595fe4080e0abf997';
 var units = 'imperial';
 var forecastDates = moment().add(day, 'days').format("MMM D");
 var day;
-
+var futureDate = document.querySelectorAll(".future-date")
+var currentDate = document.querySelector("#current-date")
 
 //adds date to corresponding cards
-var weatherDate = document.querySelectorAll("h2");
-for (var i = 0; i < weatherDate.length; i++) {
-    weatherDate[i].textContent = forecastDates;
-    forecastDates = moment().add(i + 1, 'days').format("MMM D");
-}
+// var weatherDate = document.querySelectorAll("h2");
+// for (var i = 0; i < weatherDate.length; i++) {
+//     weatherDate[i].textContent = forecastDates;
+//     forecastDates = moment().add(i + 1, 'days').format("MMM D");
+// }
 
 function getWeather(city) {
     savedCities(city)
@@ -26,6 +27,12 @@ function getWeather(city) {
             fetch(oneCallBaseEndPoint + `?lat=${lat}&lon=${lon}&units=${units}&appid=${API_KEY}`)
                 .then(oneCallRes => oneCallRes.json())
                 .then(oneCallData => {
+
+                    for (let i = 0; i < futureDate.length; i++) {
+                        futureDate[i].textContent = new Date(oneCallData.daily[i + 1].dt * 1000).toDateString() 
+                    }
+
+                    currentDate.textContent = new Date(oneCallData.current.dt * 1000).toDateString()
 
                     var currentWeatherEl = document.querySelector("#current-icon")
                     var currentWeatherIconVal = oneCallData.current.weather[0].icon
@@ -111,13 +118,12 @@ document.querySelector('#search-button').addEventListener('click', function () {
     var inputedCity = document.querySelector('#search-value').value
     console.log('city', inputedCity)
     getWeather(inputedCity)
-    // getWeather(savedCities)
 
-        var weatherDate = document.querySelectorAll("h2");
-        for (var i = 0; i < weatherDate.length; i++) {
-        weatherDate[i].textContent = forecastDates + " in " + inputedCity;
-        forecastDates = moment().add(i + 1, 'days').format("MMM D");
-    }
+    //     var weatherDate = document.querySelectorAll("h2");
+    //     for (var i = 0; i < weatherDate.length; i++) {
+    //     weatherDate[i].textContent = forecastDates + " in " + inputedCity;
+    //     forecastDates = moment().add(i + 1, 'days').format("MMM D");
+    // }
 
     //create buttons for saved city
     // var savedCityButton = document.createElement("button");
@@ -141,7 +147,7 @@ document.querySelector('#search-button').addEventListener('click', function () {
 function savedCities(cityName) {
     var savedCities = JSON.parse(localStorage.getItem('savedCities')) || [];
     if (!savedCities.includes(cityName)) {
-        savedCities.push(cityName); 
+        savedCities.push(cityName);
         localStorage.setItem('savedCities', JSON.stringify(savedCities));
     }
     // if (savedCities !== null) {
