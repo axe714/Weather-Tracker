@@ -16,6 +16,7 @@ var currentDate = document.querySelector("#current-date")
 // }
 
 function getWeather(city) {
+    
     savedCities(city)
     fetch(weatherBaseEndPoint + `?q=${encodeURI(city)}&appid=${API_KEY}`)
         .then(weatherRes => weatherRes.json())
@@ -29,10 +30,10 @@ function getWeather(city) {
                 .then(oneCallData => {
 
                     for (let i = 0; i < futureDate.length; i++) {
-                        futureDate[i].textContent = new Date(oneCallData.daily[i + 1].dt * 1000).toDateString() 
+                        futureDate[i].textContent = new Date(oneCallData.daily[i + 1].dt * 1000).toDateString() + " in " + city
                     }
 
-                    currentDate.textContent = new Date(oneCallData.current.dt * 1000).toDateString()
+                    currentDate.textContent = new Date(oneCallData.current.dt * 1000).toDateString() + " in " + city
 
                     var currentWeatherEl = document.querySelector("#current-icon")
                     var currentWeatherIconVal = oneCallData.current.weather[0].icon
@@ -113,11 +114,13 @@ function getWeather(city) {
         })
 }
 
-
 document.querySelector('#search-button').addEventListener('click', function () {
     var inputedCity = document.querySelector('#search-value').value
     console.log('city', inputedCity)
     getWeather(inputedCity)
+    if (inputedCity === "") {
+        alert("Please enter a city")
+    }
 
     //     var weatherDate = document.querySelectorAll("h2");
     //     for (var i = 0; i < weatherDate.length; i++) {
@@ -156,14 +159,12 @@ function savedCities(cityName) {
         var savedCityButton = document.createElement("button");
         savedCityButton.textContent = savedCities[i];
         savedCityButton.classList.add("saved-city-button");
-        console.log(savedCities[i])
         let currentCity = savedCities[i]
         document.querySelector('#saved-city-row').appendChild(savedCityButton);
         savedCityButton.addEventListener('click', function () {
             getWeather(currentCity)
         })
     }
-    // } 
 }
 
 savedCities("Anaheim")
