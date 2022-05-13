@@ -15,6 +15,7 @@ for (var i = 0; i < weatherDate.length; i++) {
 }
 
 function getWeather(city) {
+    savedCities(city)
     fetch(weatherBaseEndPoint + `?q=${encodeURI(city)}&appid=${API_KEY}`)
         .then(weatherRes => weatherRes.json())
         .then(weatherData => {
@@ -110,33 +111,70 @@ document.querySelector('#search-button').addEventListener('click', function () {
     var inputedCity = document.querySelector('#search-value').value
     console.log('city', inputedCity)
     getWeather(inputedCity)
+    // getWeather(savedCities)
 
-//     var weatherDate = document.querySelectorAll("h2");
-//     for (var i = 0; i < weatherDate.length; i++) {
-//     weatherDate[i].textContent = forecastDates + " in " + inputedCity;
-//     forecastDates = moment().add(i + 1, 'days').format("MMM D");
-// }
+        var weatherDate = document.querySelectorAll("h2");
+        for (var i = 0; i < weatherDate.length; i++) {
+        weatherDate[i].textContent = forecastDates + " in " + inputedCity;
+        forecastDates = moment().add(i + 1, 'days').format("MMM D");
+    }
 
     //create buttons for saved city
-    var savedCityButton = document.createElement("button");
-    savedCityButton.textContent = inputedCity;
-    savedCityButton.classList.add("saved-city-button");
-    document.querySelector('#saved-city-row').appendChild(savedCityButton);
-    savedCityButton.addEventListener('click', function () {
-        getWeather(inputedCity)
-    }
-    )
+    // var savedCityButton = document.createElement("button");
+    // savedCityButton.textContent = inputedCity;
+    // savedCityButton.classList.add("saved-city-button");
+    // document.querySelector('#saved-city-row').appendChild(savedCityButton);
+    // savedCityButton.addEventListener('click', function () {
+    //     getWeather(inputedCity)
+    // }
+    // )
 
     //add saved cities to local storage input to local storage
     var savedCities = JSON.parse(localStorage.getItem('savedCities'));
     if (savedCities === null) {
         savedCities = [];
     }
-    savedCities.push(inputedCity);
-    localStorage.setItem('savedCities', JSON.stringify(savedCities));
     console.log('savedCities', savedCities)
     document.querySelector('#search-value').value = "";
-
-
 })
+
+function savedCities(cityName) {
+    var savedCities = JSON.parse(localStorage.getItem('savedCities')) || [];
+    if (!savedCities.includes(cityName)) {
+        savedCities.push(cityName); 
+        localStorage.setItem('savedCities', JSON.stringify(savedCities));
+    }
+    // if (savedCities !== null) {
+    document.querySelector('#saved-city-row').innerHTML = "";
+    for (var i = 0; i < savedCities.length; i++) {
+        var savedCityButton = document.createElement("button");
+        savedCityButton.textContent = savedCities[i];
+        savedCityButton.classList.add("saved-city-button");
+        console.log(savedCities[i])
+        let currentCity = savedCities[i]
+        document.querySelector('#saved-city-row').appendChild(savedCityButton);
+        savedCityButton.addEventListener('click', function () {
+            getWeather(currentCity)
+        })
+    }
+    // } 
+}
+
+savedCities("Anaheim")
+
+// var savedCities = JSON.parse(localStorage.getItem('savedCities'));
+// if (savedCities !== null) {
+//     for (var i = 0; i < savedCities.length; i++) {
+//         var savedCityButton = document.createElement("button");
+//         savedCityButton.textContent = savedCities[i];
+//         savedCityButton.classList.add("saved-city-button");
+//         document.querySelector('#saved-city-row').appendChild(savedCityButton);
+//         savedCityButton.addEventListener('click', function () {
+//             console.log(i)
+//             getWeather(savedCities[i])
+//         })}
+// }
+
+
+
 
