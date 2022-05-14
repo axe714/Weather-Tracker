@@ -73,7 +73,7 @@ function getWeather(city) {
 
 
                     document.querySelector('#today-uv').textContent = "UV Index: " + currentUV
-                    if (currentUV > 8) {
+                    if (currentUV >= 8) {
                         document.querySelector('#today-uv').style.color = "red"
                     } else if (currentUV > 3 && currentUV < 7) {
                         document.querySelector('#today-uv').style.color = "orange"
@@ -119,7 +119,7 @@ function getWeather(city) {
                         futureUV[i].textContent = "";
                         var futureUVArray = oneCallData.daily[i].uvi
                         futureUV[i].textContent = "UV Index: " + futureUVArray
-                        if (futureUVArray > 6) {
+                        if (futureUVArray >= 8) {
                             futureUV[i].style.color = "red";
                         } else if (futureUVArray > 3 && futureUVArray < 7) {
                             futureUV[i].style.color = "orange";
@@ -173,9 +173,3 @@ function savedCities(cityName) {
 }
 
 savedCities("Anaheim")
-
-
-
-
-
-
