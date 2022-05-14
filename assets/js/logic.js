@@ -75,7 +75,7 @@ function getWeather(city) {
                     document.querySelector('#today-uv').textContent = "UV Index: " + currentUV
                     if (currentUV >= 8) {
                         document.querySelector('#today-uv').style.color = "red"
-                    } else if (currentUV > 3 && currentUV < 7) {
+                    } else if (currentUV >= 3 && currentUV <= 7) {
                         document.querySelector('#today-uv').style.color = "orange"
                     } else {
                         document.querySelector('#today-uv').style.color = "lightgreen"
@@ -121,7 +121,7 @@ function getWeather(city) {
                         futureUV[i].textContent = "UV Index: " + futureUVArray
                         if (futureUVArray >= 8) {
                             futureUV[i].style.color = "red";
-                        } else if (futureUVArray > 3 && futureUVArray < 7) {
+                        } else if (futureUVArray >= 3 && futureUVArray <= 7) {
                             futureUV[i].style.color = "orange";
                         } else {
                             futureUV[i].style.color = "lightgreen";
