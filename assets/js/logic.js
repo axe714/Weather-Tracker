@@ -118,9 +118,6 @@ document.querySelector('#search-button').addEventListener('click', function () {
     var inputedCity = document.querySelector('#search-value').value
     console.log('city', inputedCity)
     getWeather(inputedCity)
-    if (inputedCity === "") {
-        alert("Please enter a city")
-    }
 
     //     var weatherDate = document.querySelectorAll("h2");
     //     for (var i = 0; i < weatherDate.length; i++) {
@@ -148,6 +145,9 @@ document.querySelector('#search-button').addEventListener('click', function () {
 })
 
 function savedCities(cityName) {
+    if (cityName == "" || cityName === null) {
+        return false;
+    } else {
     var savedCities = JSON.parse(localStorage.getItem('savedCities')) || [];
     if (!savedCities.includes(cityName)) {
         savedCities.push(cityName);
@@ -165,7 +165,7 @@ function savedCities(cityName) {
             getWeather(currentCity)
         })
     }
-}
+}}
 
 savedCities("Anaheim")
 
